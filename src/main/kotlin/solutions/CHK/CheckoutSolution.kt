@@ -3,7 +3,8 @@ package solutions.CHK
 object CheckoutSolution {
     fun checkout(skus: String): Int {
         skus.groupingBy { it }.eachCount().let {
-            return it.removeFreeItems().calculateCartTotal().minus(it.calculateSpecialOffers())
+            val clearCart = it.removeFreeItems()
+            return clearCart.calculateCartTotal().minus(clearCart.calculateSpecialOffers())
         }
     }
 
@@ -47,6 +48,7 @@ object CheckoutSolution {
                 'A' -> quantity / 5 * 50 + (quantity % 5) / 3 * 20
                 'B' -> quantity / 2 * 15
                 'H' -> quantity / 10 * 20 + (quantity % 10) / 5 * 5
+                'K' -> quantity / 2 * 10
                 'P' -> quantity / 5 * 50
                 'Q' -> quantity / 3 * 10
                 'V' -> quantity / 3 * 20 + (quantity % 3) / 2 * 10
