@@ -16,8 +16,9 @@ object CheckoutSolution {
                 'B' -> quantity / 2 * 45 + quantity % 2 * 30
                 'C' -> quantity * 20
                 'D' -> quantity * 15
-                else -> throw IllegalArgumentException("Invalid SKU")
+                else -> -1
             }
         }
     }
 }
+
