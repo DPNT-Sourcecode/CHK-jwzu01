@@ -4,8 +4,7 @@ object CheckoutSolution {
     fun checkout(skus: String): Int {
         skus.groupingBy { it }.eachCount().let {
             val clearCart = it.removeFreeItems()
-            return clearCart.calculateCartTotal().minus(clearCart.calculateSpecialOffers())
-                .minus(clearCart.calculateGroupOffers())
+            return clearCart.calculateCartTotal().minus(clearCart.calculateSpecialOffers()).minus(clearCart.calculateGroupOffers())
         }
     }
 
@@ -134,4 +133,5 @@ enum class Product(val item: Char, val price: Int) {
     Y('Y', 20),
     Z('Z', 21);
 }
+
 
