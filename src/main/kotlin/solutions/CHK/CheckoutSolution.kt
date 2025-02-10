@@ -6,6 +6,7 @@ object CheckoutSolution {
             val clearCart = it.removeFreeItems()
             return clearCart.calculateCartTotal()
                 .minus(clearCart.calculateSpecialOffers())
+                .minus(clearCart.calculateGroupOffers())
         }
     }
 
@@ -33,23 +34,46 @@ object CheckoutSolution {
 
     private fun Map<Char, Int>.calculateGroupOffers(): Int {
         val stxyzItems = this.filter { it.key in GroupOffer.STXYZ.items }
-        val itemsList = stxyzItems.map { it.key to it.value }
         if (stxyzItems.entries.sumOf { it.value } > 5){
             var totalCost = 0;
             var itemsToRemove = (stxyzItems.entries.sumOf { it.value } / 5) * 5
-            while (itemsToRemove > 0) {
-                val itemsList = stxyzItems.toList().sortedBy { cartItem -> Product.values().find { it.item == cartItem.first }?.price }
-
+            if (itemsToRemove > 0) {
+                stxyzItems['Z']?.let {
+                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Z.price)
+                    totalCost += price
+                    itemsToRemove = toRemove
+                }
+                stxyzItems['S']?.let {
+                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Z.price)
+                    totalCost += price
+                    itemsToRemove = toRemove
+                }
+                stxyzItems['T']?.let {
+                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Z.price)
+                    totalCost += price
+                    itemsToRemove = toRemove
+                }
+                stxyzItems['Y']?.let {
+                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Z.price)
+                    totalCost += price
+                    itemsToRemove = toRemove
+                }
+                stxyzItems['X']?.let {
+                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Z.price)
+                    totalCost += price
+                    itemsToRemove = toRemove
+                }
             }
+            return totalCost - (stxyzItems.entries.sumOf { it.value } / 5) * 45
         }
-        return
+        return 0
     }
 
     private fun calculateToSubtract(toRemove: Int, quantity: Int, price: Int): Pair<Int, Int> {
         if (toRemove > quantity) {
             return Pair(toRemove - quantity, price * quantity)
         } else {
-            return Pair(quantity - toRemove, price * toRemove)
+            return Pair(toRemove, price * toRemove)
         }
     }
 
