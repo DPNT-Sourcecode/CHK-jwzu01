@@ -32,9 +32,9 @@ object CheckoutSolution {
 
     private fun Map<Char, Int>.calculateGroupOffers(): Int {
         val stxyzItems = this.filter { it.key in GroupOffer.STXYZ.items }
-        if (stxyzItems.entries.sumOf { it.value } > 5){
+        if (stxyzItems.entries.sumOf { it.value } > 3){
             var totalCost = 0;
-            var itemsToRemove = (stxyzItems.entries.sumOf { it.value } / 5) * 5
+            var itemsToRemove = (stxyzItems.entries.sumOf { it.value } / 3) * 3
             if (itemsToRemove > 0) {
                 stxyzItems['Z']?.let {
                     val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Z.price)
@@ -62,7 +62,7 @@ object CheckoutSolution {
                     itemsToRemove = toRemove
                 }
             }
-            return totalCost - (stxyzItems.entries.sumOf { it.value } / 5) * 45
+            return totalCost - (stxyzItems.entries.sumOf { it.value } / 3) * 45
         }
         return 0
     }
@@ -134,5 +134,6 @@ enum class Product(val item: Char, val price: Int) {
     Y('Y', 20),
     Z('Z', 21);
 }
+
 
 
