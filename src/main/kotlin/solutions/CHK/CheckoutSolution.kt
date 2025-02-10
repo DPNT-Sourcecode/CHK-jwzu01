@@ -38,30 +38,11 @@ object CheckoutSolution {
         if (stxyzItemsToRemove >= GroupOffer.STXYZ.quantity) {
             var totalCost = 0;
             var itemsToRemove = stxyzItemsToRemove
-            stxyzItems['Z']?.let {
-                val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Z.price)
+            stxyzItems.entries.sortedByDescending { Product.values().find { product -> product.item == it.key }?.price }.forEach { (item, quantity) ->
+                val productPrice = Product.values().find { it.item == item }?.price ?: 0
+                val (removed, price) = calculateToSubtract(itemsToRemove, quantity, productPrice)
                 totalCost += price
-                itemsToRemove = toRemove
-            }
-            stxyzItems['S']?.let {
-                val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.S.price)
-                totalCost += price
-                itemsToRemove = toRemove
-            }
-            stxyzItems['T']?.let {
-                val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.T.price)
-                totalCost += price
-                itemsToRemove = toRemove
-            }
-            stxyzItems['Y']?.let {
-                val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Y.price)
-                totalCost += price
-                itemsToRemove = toRemove
-            }
-            stxyzItems['X']?.let {
-                val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.X.price)
-                totalCost += price
-                itemsToRemove = toRemove
+                itemsToRemove -= removed
             }
             return totalCost - (stxyzItemsToRemove / GroupOffer.STXYZ.quantity * GroupOffer.STXYZ.price)
         }
@@ -70,7 +51,7 @@ object CheckoutSolution {
 
     private fun calculateToSubtract(toRemove: Int, quantity: Int, price: Int): Pair<Int, Int> {
         if (toRemove > quantity) {
-            return Pair(toRemove - quantity, price * quantity)
+            return Pair(quantity, price * quantity)
         } else {
             return Pair(toRemove, price * toRemove)
         }
@@ -135,6 +116,7 @@ enum class Product(val item: Char, val price: Int) {
     Y('Y', 20),
     Z('Z', 21);
 }
+
 
 
 
