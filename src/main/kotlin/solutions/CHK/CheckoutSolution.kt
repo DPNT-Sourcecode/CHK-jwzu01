@@ -4,7 +4,8 @@ object CheckoutSolution {
     fun checkout(skus: String): Int {
         skus.groupingBy { it }.eachCount().let {
             val clearCart = it.removeFreeItems()
-            return clearCart.calculateCartTotal().minus(clearCart.calculateSpecialOffers()).minus(clearCart.calculateGroupOffers())
+            return clearCart.calculateCartTotal().minus(clearCart.calculateSpecialOffers())
+                .minus(clearCart.calculateGroupOffers())
         }
     }
 
@@ -32,38 +33,36 @@ object CheckoutSolution {
 
     private fun Map<Char, Int>.calculateGroupOffers(): Int {
         val stxyzItems = this.filter { it.key in GroupOffer.STXYZ.items }
-        val stxyzItemsToRemove = stxyzItems.entries.sumOf { it.value } > 3
-        if (stxyzItemsToRemove){
+        val stxyzItemsToRemove = (stxyzItems.entries.sumOf { it.value } / 3) * 3
+        if (stxyzItemsToRemove > 3) {
             var totalCost = 0;
-            var itemsToRemove = (stxyzItems.entries.sumOf { it.value } / 3) * 3
-            if (itemsToRemove > 0) {
-                stxyzItems['Z']?.let {
-                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Z.price)
-                    totalCost += price
-                    itemsToRemove = toRemove
-                }
-                stxyzItems['S']?.let {
-                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.S.price)
-                    totalCost += price
-                    itemsToRemove = toRemove
-                }
-                stxyzItems['T']?.let {
-                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.T.price)
-                    totalCost += price
-                    itemsToRemove = toRemove
-                }
-                stxyzItems['Y']?.let {
-                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Y.price)
-                    totalCost += price
-                    itemsToRemove = toRemove
-                }
-                stxyzItems['X']?.let {
-                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.X.price)
-                    totalCost += price
-                    itemsToRemove = toRemove
-                }
+            var itemsToRemove = stxyzItemsToRemove
+            stxyzItems['Z']?.let {
+                val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Z.price)
+                totalCost += price
+                itemsToRemove = toRemove
             }
-            return totalCost - ((stxyzItems.entries.sumOf { it.value } / 3) * 45)
+            stxyzItems['S']?.let {
+                val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.S.price)
+                totalCost += price
+                itemsToRemove = toRemove
+            }
+            stxyzItems['T']?.let {
+                val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.T.price)
+                totalCost += price
+                itemsToRemove = toRemove
+            }
+            stxyzItems['Y']?.let {
+                val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Y.price)
+                totalCost += price
+                itemsToRemove = toRemove
+            }
+            stxyzItems['X']?.let {
+                val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.X.price)
+                totalCost += price
+                itemsToRemove = toRemove
+            }
+            return totalCost - (stxyzItemsToRemove * 45)
         }
         return 0
     }
@@ -76,7 +75,7 @@ object CheckoutSolution {
         }
     }
 
-    private fun Map<Char, Int>.removeFreeItems(): Map<Char, Int>{
+    private fun Map<Char, Int>.removeFreeItems(): Map<Char, Int> {
         val consolidationItemsMap = this.toMutableMap()
         consolidationItemsMap['E']?.let {
             consolidationItemsMap['B'] = consolidationItemsMap['B']?.minus(consolidationItemsMap['E']!!.div(2)) ?: 0
@@ -98,11 +97,11 @@ object CheckoutSolution {
 }
 
 enum class GroupOffer(val items: Set<Char>, val quantity: Int, val price: Int) {
-    STXYZ(setOf('S', 'T', 'X', 'Y', 'Z'),5, 50);
+    STXYZ(setOf('S', 'T', 'X', 'Y', 'Z'), 5, 50);
 
     companion object {
-        fun contains(item: Char): Boolean{
-            return values().any() { it.items.contains(item)}
+        fun contains(item: Char): Boolean {
+            return values().any() { it.items.contains(item) }
         }
     }
 }
