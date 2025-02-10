@@ -21,7 +21,7 @@ object CheckoutSolution {
                 'H' -> quantity * 10
                 'I' -> quantity * 35
                 'J' -> quantity * 60
-                'K' -> quantity * 80
+                'K' -> quantity * 70
                 'L' -> quantity * 90
                 'M' -> quantity * 15
                 'N' -> quantity * 40
@@ -29,20 +29,36 @@ object CheckoutSolution {
                 'P' -> quantity * 50
                 'Q' -> quantity * 30
                 'R' -> quantity * 50
-                'S' -> quantity * 30
+                'S' -> quantity * 20
                 'T' -> quantity * 20
                 'U' -> quantity * 40
                 'V' -> quantity * 50
                 'W' -> quantity * 20
-                'X' -> quantity * 90
-                'Y' -> quantity * 10
-                'Z' -> quantity * 50
+                'X' -> quantity * 17
+                'Y' -> quantity * 20
+                'Z' -> quantity * 21
                 else -> return -1
             }
         }
     }
 
     private fun Map<Char, Int>.calculateSpecialOffers(): Int {
+        return this.entries.sumOf { (item, quantity) ->
+            when (item) {
+                'A' -> quantity / 5 * 50 + (quantity % 5) / 3 * 20
+                'B' -> quantity / 2 * 15
+                'H' -> quantity / 10 * 20 + (quantity % 10) / 5 * 5
+                'K' -> quantity / 2 * 10
+                'P' -> quantity / 5 * 50
+                'Q' -> quantity / 3 * 10
+                'V' -> quantity / 3 * 20 + (quantity % 3) / 2 * 10
+                else -> 0
+            }
+        }
+    }
+
+    private fun Map<Char, Int>.calculateGroupOffers(): Int {
+        val groupOfferTrigger = this.entries
         return this.entries.sumOf { (item, quantity) ->
             when (item) {
                 'A' -> quantity / 5 * 50 + (quantity % 5) / 3 * 20
@@ -76,4 +92,8 @@ object CheckoutSolution {
         }
         return consolidationItemsMap
     }
+}
+
+enum class GroupOffer(val quantity: Int, val price: Int) {
+    STXYZ(5, 50),
 }
