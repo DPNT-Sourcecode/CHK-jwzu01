@@ -11,35 +11,8 @@ object CheckoutSolution {
 
     private fun Map<Char, Int>.calculateCartTotal(): Int {
         return this.entries.sumOf { (item, quantity) ->
-            when (item) {
-                'A' -> quantity * 50
-                'B' -> quantity * 30
-                'C' -> quantity * 20
-                'D' -> quantity * 15
-                'E' -> quantity * 40
-                'F' -> quantity * 10
-                'G' -> quantity * 20
-                'H' -> quantity * 10
-                'I' -> quantity * 35
-                'J' -> quantity * 60
-                'K' -> quantity * 70
-                'L' -> quantity * 90
-                'M' -> quantity * 15
-                'N' -> quantity * 40
-                'O' -> quantity * 10
-                'P' -> quantity * 50
-                'Q' -> quantity * 30
-                'R' -> quantity * 50
-                'S' -> quantity * 20
-                'T' -> quantity * 20
-                'U' -> quantity * 40
-                'V' -> quantity * 50
-                'W' -> quantity * 20
-                'X' -> quantity * 17
-                'Y' -> quantity * 20
-                'Z' -> quantity * 21
-                else -> return -1
-            }
+            val price = Product.values().find { it.item == item }?.price ?: return -1
+            price * quantity
         }
     }
 
@@ -64,7 +37,7 @@ object CheckoutSolution {
             var totalCost = 0;
             var itemsToRemove = (stxyzItems.entries.sumOf { it.value } / 5) * 5
             while (itemsToRemove > 0) {
-                stxyzItems.toList().sortedBy { it. }
+                stxyzItems.toList().sortedBy { cartItem -> Product.values().find { it.item == cartItem.first }?.price }
             }
         }
         return
@@ -137,3 +110,4 @@ enum class Product(val item: Char, val price: Int) {
     Y('Y', 20),
     Z('Z', 21);
 }
+
