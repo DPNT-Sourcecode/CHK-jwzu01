@@ -3,20 +3,54 @@ package solutions.CHK
 object CheckoutSolution {
     fun checkout(skus: String): Int {
         skus.groupingBy { it }.eachCount().let {
-            return it.removeFreeItems().calculateCartTotal()
+            return it.removeFreeItems().calculateCartTotal().minus(it.calculateSpecialOffers())
         }
     }
 
     private fun Map<Char, Int>.calculateCartTotal(): Int {
         return this.entries.sumOf { (item, quantity) ->
             when (item) {
-                'A' -> quantity / 5 * 200 + (quantity % 5) / 3 * 130 + (quantity % 5) % 3 * 50
-                'B' -> quantity / 2 * 45 + quantity % 2 * 30
+                'A' -> quantity * 50
+                'B' -> quantity * 30
                 'C' -> quantity * 20
                 'D' -> quantity * 15
                 'E' -> quantity * 40
                 'F' -> quantity * 10
+                'G' -> quantity * 20
+                'H' -> quantity * 10
+                'I' -> quantity * 35
+                'J' -> quantity * 60
+                'K' -> quantity * 80
+                'L' -> quantity * 90
+                'M' -> quantity * 15
+                'N' -> quantity * 40
+                'O' -> quantity * 10
+                'P' -> quantity * 50
+                'Q' -> quantity * 30
+                'R' -> quantity * 50
+                'S' -> quantity * 30
+                'T' -> quantity * 20
+                'U' -> quantity * 40
+                'V' -> quantity * 50
+                'W' -> quantity * 20
+                'X' -> quantity * 90
+                'Y' -> quantity * 10
+                'Z' -> quantity * 50
                 else -> return -1
+            }
+        }
+    }
+
+    private fun Map<Char, Int>.calculateSpecialOffers(): Int {
+        return this.entries.sumOf { (item, quantity) ->
+            when (item) {
+                'A' -> quantity / 5 * 50 + (quantity % 5) / 3 * 20
+                'B' -> quantity / 2 * 15
+                'H' -> quantity / 10 * 20 + (quantity % 10) / 5 * 5
+                'P' -> quantity / 5 * 50
+                'Q' -> quantity / 3 * 10
+                'V' -> quantity / 3 * 20 + (quantity % 3) / 2 * 10
+                else -> 0
             }
         }
     }
@@ -28,6 +62,15 @@ object CheckoutSolution {
         }
         consolidationItemsMap['F']?.let {
             consolidationItemsMap['F'] = consolidationItemsMap['F']?.minus(consolidationItemsMap['F']!!.div(3)) ?: 0
+        }
+        consolidationItemsMap['N']?.let {
+            consolidationItemsMap['M'] = consolidationItemsMap['M']?.minus(consolidationItemsMap['N']!!.div(3)) ?: 0
+        }
+        consolidationItemsMap['R']?.let {
+            consolidationItemsMap['Q'] = consolidationItemsMap['Q']?.minus(consolidationItemsMap['R']!!.div(3)) ?: 0
+        }
+        consolidationItemsMap['U']?.let {
+            consolidationItemsMap['U'] = consolidationItemsMap['U']?.minus(consolidationItemsMap['U']!!.div(4)) ?: 0
         }
         return consolidationItemsMap
     }
