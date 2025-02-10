@@ -50,6 +50,9 @@ object CheckoutSolution {
     }
 
     private fun calculateToSubtract(toRemove: Int, quantity: Int, price: Int): Pair<Int, Int> {
+        if(toRemove == 0) {
+            return Pair(0, 0)
+        }
         if (toRemove > quantity) {
             return Pair(quantity, price * quantity)
         } else {
@@ -116,6 +119,7 @@ enum class Product(val item: Char, val price: Int) {
     Y('Y', 20),
     Z('Z', 21);
 }
+
 
 
 
