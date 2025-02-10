@@ -32,10 +32,10 @@ object CheckoutSolution {
 
     private fun Map<Char, Int>.calculateGroupOffers(): Int {
         val stxyzItems = this.filter { it.key in GroupOffer.STXYZ.items }
-        val stxyzItemsToRemove = (stxyzItems.entries.sumOf { it.value } / 3) * 3
+        val stxyzItemsToRemove = (stxyzItems.entries.sumOf { it.value } / GroupOffer.STXYZ.quantity) * GroupOffer.STXYZ.quantity
         println(stxyzItems)
         println(stxyzItemsToRemove)
-        if (stxyzItemsToRemove >= 3) {
+        if (stxyzItemsToRemove >= GroupOffer.STXYZ.quantity) {
             var totalCost = 0;
             var itemsToRemove = stxyzItemsToRemove
             stxyzItems['Z']?.let {
@@ -63,7 +63,7 @@ object CheckoutSolution {
                 totalCost += price
                 itemsToRemove = toRemove
             }
-            return totalCost - (stxyzItemsToRemove * 45)
+            return totalCost - (stxyzItemsToRemove / GroupOffer.STXYZ.quantity * GroupOffer.STXYZ.price)
         }
         return 0
     }
@@ -98,7 +98,7 @@ object CheckoutSolution {
 }
 
 enum class GroupOffer(val items: Set<Char>, val quantity: Int, val price: Int) {
-    STXYZ(setOf('S', 'T', 'X', 'Y', 'Z'), 5, 50);
+    STXYZ(setOf('S', 'T', 'X', 'Y', 'Z'), 3, 45);
 
     companion object {
         fun contains(item: Char): Boolean {
@@ -135,6 +135,7 @@ enum class Product(val item: Char, val price: Int) {
     Y('Y', 20),
     Z('Z', 21);
 }
+
 
 
 
