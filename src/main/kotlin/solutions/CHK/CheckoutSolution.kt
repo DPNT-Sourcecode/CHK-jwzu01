@@ -58,23 +58,8 @@ object CheckoutSolution {
     }
 
     private fun Map<Char, Int>.calculateGroupOffers(): Int {
-        val groupOfferTrigger = this.entries.sumOf { (item, quantity) ->
-            when (item) {
-                GroupOffer -> quantity
-                else -> 0
-            }
-        }
         return this.entries.sumOf { (item, quantity) ->
-            when (item) {
-                'A' -> quantity / 5 * 50 + (quantity % 5) / 3 * 20
-                'B' -> quantity / 2 * 15
-                'H' -> quantity / 10 * 20 + (quantity % 10) / 5 * 5
-                'K' -> quantity / 2 * 10
-                'P' -> quantity / 5 * 50
-                'Q' -> quantity / 3 * 10
-                'V' -> quantity / 3 * 20 + (quantity % 3) / 2 * 10
-                else -> 0
-            }
+            GroupOffer.contains(item).let { quantity }
         }
     }
 
@@ -100,6 +85,11 @@ object CheckoutSolution {
 }
 
 enum class GroupOffer(val items: Set<Char>, val quantity: Int, val price: Int) {
-    STXYZ(setOf('S', 'T', 'X', 'Y', 'Z'),5, 50),
-}
+    STXYZ(setOf('S', 'T', 'X', 'Y', 'Z'),5, 50);
 
+    companion object {
+        fun contains(item: Char): Boolean{
+            return values().any() { it.items.contains(item)}
+        }
+    }
+}
