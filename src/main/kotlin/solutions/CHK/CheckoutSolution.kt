@@ -32,7 +32,8 @@ object CheckoutSolution {
 
     private fun Map<Char, Int>.calculateGroupOffers(): Int {
         val stxyzItems = this.filter { it.key in GroupOffer.STXYZ.items }
-        if (stxyzItems.entries.sumOf { it.value } > 3){
+        val stxyzItemsToRemove = stxyzItems.entries.sumOf { it.value } > 3
+        if (stxyzItemsToRemove){
             var totalCost = 0;
             var itemsToRemove = (stxyzItems.entries.sumOf { it.value } / 3) * 3
             if (itemsToRemove > 0) {
@@ -42,22 +43,22 @@ object CheckoutSolution {
                     itemsToRemove = toRemove
                 }
                 stxyzItems['S']?.let {
-                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Z.price)
+                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.S.price)
                     totalCost += price
                     itemsToRemove = toRemove
                 }
                 stxyzItems['T']?.let {
-                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Z.price)
+                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.T.price)
                     totalCost += price
                     itemsToRemove = toRemove
                 }
                 stxyzItems['Y']?.let {
-                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Z.price)
+                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Y.price)
                     totalCost += price
                     itemsToRemove = toRemove
                 }
                 stxyzItems['X']?.let {
-                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.Z.price)
+                    val (toRemove, price) = calculateToSubtract(itemsToRemove, it, Product.X.price)
                     totalCost += price
                     itemsToRemove = toRemove
                 }
@@ -134,7 +135,3 @@ enum class Product(val item: Char, val price: Int) {
     Y('Y', 20),
     Z('Z', 21);
 }
-
-
-
-
