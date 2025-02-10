@@ -33,11 +33,13 @@ object CheckoutSolution {
 
     private fun Map<Char, Int>.calculateGroupOffers(): Int {
         val stxyzItems = this.filter { it.key in GroupOffer.STXYZ.items }
+        val itemsList = stxyzItems.map { it.key to it.value }
         if (stxyzItems.entries.sumOf { it.value } > 5){
             var totalCost = 0;
             var itemsToRemove = (stxyzItems.entries.sumOf { it.value } / 5) * 5
             while (itemsToRemove > 0) {
-                stxyzItems.toList().sortedBy { cartItem -> Product.values().find { it.item == cartItem.first }?.price }
+                val itemsList = stxyzItems.toList().sortedBy { cartItem -> Product.values().find { it.item == cartItem.first }?.price }
+
             }
         }
         return
@@ -110,4 +112,3 @@ enum class Product(val item: Char, val price: Int) {
     Y('Y', 20),
     Z('Z', 21);
 }
-
