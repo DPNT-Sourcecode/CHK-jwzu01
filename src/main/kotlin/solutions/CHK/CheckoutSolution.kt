@@ -16,7 +16,7 @@ object CheckoutSolution {
         }
         return consolidationItemsMap.entries.sumOf { (item, quantity) ->
             when (item) {
-                'A' -> quantity / 3 * 130 + quantity % 3 * 50
+                'A' -> quantity / 5 * 200 + (quantity % 5) / 3 * 130 + (quantity % 5) % 3 * 50
                 'B' -> quantity / 2 * 45 + quantity % 2 * 30
                 'C' -> quantity * 20
                 'D' -> quantity * 15
@@ -26,3 +26,4 @@ object CheckoutSolution {
         }
     }
 }
+
