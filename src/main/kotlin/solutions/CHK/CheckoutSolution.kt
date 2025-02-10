@@ -58,7 +58,12 @@ object CheckoutSolution {
     }
 
     private fun Map<Char, Int>.calculateGroupOffers(): Int {
-        val groupOfferTrigger = this.entries
+        val groupOfferTrigger = this.entries.sumOf { (item, quantity) ->
+            when (item) {
+                GroupOffer -> quantity
+                else -> 0
+            }
+        }
         return this.entries.sumOf { (item, quantity) ->
             when (item) {
                 'A' -> quantity / 5 * 50 + (quantity % 5) / 3 * 20
@@ -97,3 +102,4 @@ object CheckoutSolution {
 enum class GroupOffer(val quantity: Int, val price: Int) {
     STXYZ(5, 50),
 }
+
