@@ -25,7 +25,10 @@ object CredentialsConfigFile {
 
     private fun readPropertiesFile(): Properties {
         val properties = Properties()
-        val config: Path = Paths.get("config", "credentials.config")
+        val config: Path = Paths.get("accelerate\\config", "credentials.config")
+
+
+        println("Looking for config file at: ${config.toAbsolutePath()}")
         try {
             properties.load(FileInputStream(config.toFile()))
         } catch (e: IOException) {
@@ -35,3 +38,4 @@ object CredentialsConfigFile {
         return properties
     }
 }
+
