@@ -10,6 +10,9 @@ object CheckoutSolution {
     }
 
     private fun Map<Char, Int>.calculateCartTotal(): Int{
+        this.entries.contains('E').let {
+            this.entries.('B') = this['B']?.minus(this)
+        }
         return this.entries.sumOf { (item, quantity) ->
             when (item) {
                 'A' -> quantity / 3 * 130 + quantity % 3 * 50
@@ -21,5 +24,6 @@ object CheckoutSolution {
         }
     }
 }
+
 
 
