@@ -9,21 +9,20 @@ object CheckoutSolution {
         }
     }
 
-    private fun Map<Char, Int>.calculateCartTotal(): Int{
-        this.entries.contains('E').let {
-            this.entries.('B') = this['B']?.minus(this)
+    private fun Map<Char, Int>.calculateCartTotal(): Int {
+        val consolidationItemsMap = this.toMutableMap()
+        consolidationItemsMap['E'].let {
+            consolidationItemsMap['B'] = consolidationItemsMap['B']?.minus(consolidationItemsMap['E']!!.div(2)) ?: 0
         }
-        return this.entries.sumOf { (item, quantity) ->
+        return consolidationItemsMap.entries.sumOf { (item, quantity) ->
             when (item) {
                 'A' -> quantity / 3 * 130 + quantity % 3 * 50
                 'B' -> quantity / 2 * 45 + quantity % 2 * 30
                 'C' -> quantity * 20
                 'D' -> quantity * 15
+                'E' -> quantity * 40
                 else -> return -1
             }
         }
     }
 }
-
-
-
