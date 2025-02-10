@@ -4,7 +4,7 @@ import java.util.*
 
 object CheckoutSolution {
     fun checkout(skus: String): Int {
-        skus.uppercase(Locale.getDefault()).groupingBy { it }.eachCount().let {
+        skus.groupingBy { it }.eachCount().let {
             return it.calculateCartTotal()
         }
     }
@@ -16,9 +16,10 @@ object CheckoutSolution {
                 'B' -> quantity / 2 * 45 + quantity % 2 * 30
                 'C' -> quantity * 20
                 'D' -> quantity * 15
-                else -> -1
+                else -> return -1
             }
         }
     }
 }
+
 
