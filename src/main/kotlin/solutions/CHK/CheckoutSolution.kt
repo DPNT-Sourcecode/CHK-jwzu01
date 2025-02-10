@@ -34,7 +34,7 @@ object CheckoutSolution {
     private fun Map<Char, Int>.calculateGroupOffers(): Int {
         val stxyzItems = this.filter { it.key in GroupOffer.STXYZ.items }
         val stxyzItemsToRemove = (stxyzItems.entries.sumOf { it.value } / 3) * 3
-        if (stxyzItemsToRemove > 3) {
+        if (stxyzItemsToRemove >= 3) {
             var totalCost = 0;
             var itemsToRemove = stxyzItemsToRemove
             stxyzItems['Z']?.let {
@@ -134,3 +134,4 @@ enum class Product(val item: Char, val price: Int) {
     Y('Y', 20),
     Z('Z', 21);
 }
+
