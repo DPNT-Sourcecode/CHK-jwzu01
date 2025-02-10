@@ -21,7 +21,7 @@ object CheckoutSolution {
                 'A' -> quantity / 5 * 50 + (quantity % 5) / 3 * 20
                 'B' -> quantity / 2 * 15
                 'H' -> quantity / 10 * 20 + (quantity % 10) / 5 * 5
-                'K' -> quantity / 2 * 10
+                'K' -> quantity / 2 * 20
                 'P' -> quantity / 5 * 50
                 'Q' -> quantity / 3 * 10
                 'V' -> quantity / 3 * 20 + (quantity % 3) / 2 * 10
@@ -134,4 +134,5 @@ enum class Product(val item: Char, val price: Int) {
     Y('Y', 20),
     Z('Z', 21);
 }
+
 
