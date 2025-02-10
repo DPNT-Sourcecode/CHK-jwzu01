@@ -11,7 +11,7 @@ object CheckoutSolution {
 
     private fun Map<Char, Int>.calculateCartTotal(): Int {
         val consolidationItemsMap = this.toMutableMap()
-        consolidationItemsMap['E'].let {
+        consolidationItemsMap['E']?.let {
             consolidationItemsMap['B'] = consolidationItemsMap['B']?.minus(consolidationItemsMap['E']!!.div(2)) ?: 0
         }
         return consolidationItemsMap.entries.sumOf { (item, quantity) ->
