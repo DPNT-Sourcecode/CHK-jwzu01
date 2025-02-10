@@ -1,8 +1,10 @@
 package solutions.CHK
 
+import java.util.*
+
 object CheckoutSolution {
     fun checkout(skus: String): Int {
-        skus.groupingBy { it }.eachCount().let {
+        skus.uppercase(Locale.getDefault()).groupingBy { it }.eachCount().let {
             return it.calculateCartTotal()
         }
     }
