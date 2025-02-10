@@ -62,7 +62,7 @@ object CheckoutSolution {
                     itemsToRemove = toRemove
                 }
             }
-            return totalCost - (stxyzItems.entries.sumOf { it.value } / 3) * 45
+            return totalCost - ((stxyzItems.entries.sumOf { it.value } / 3) * 45)
         }
         return 0
     }
@@ -134,6 +134,7 @@ enum class Product(val item: Char, val price: Int) {
     Y('Y', 20),
     Z('Z', 21);
 }
+
 
 
 
