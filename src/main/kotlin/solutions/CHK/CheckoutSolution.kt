@@ -99,7 +99,7 @@ object CheckoutSolution {
     }
 }
 
-enum class GroupOffer(val quantity: Int, val price: Int) {
-    STXYZ(5, 50),
+enum class GroupOffer(val items: Set<Char>, val quantity: Int, val price: Int) {
+    STXYZ(setOf('S', 'T', 'X', 'Y', 'Z'),5, 50),
 }
 
