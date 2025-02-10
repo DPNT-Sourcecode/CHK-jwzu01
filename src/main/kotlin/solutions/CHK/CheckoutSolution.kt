@@ -4,7 +4,8 @@ object CheckoutSolution {
     fun checkout(skus: String): Int {
         skus.groupingBy { it }.eachCount().let {
             val clearCart = it.removeFreeItems()
-            return clearCart.calculateCartTotal().minus(clearCart.calculateSpecialOffers())
+            return clearCart.calculateCartTotal()
+                .minus(clearCart.calculateSpecialOffers())
         }
     }
 
@@ -58,9 +59,11 @@ object CheckoutSolution {
     }
 
     private fun Map<Char, Int>.calculateGroupOffers(): Int {
-        return this.entries.sumOf { (item, quantity) ->
-            GroupOffer.contains(item).let { quantity }
-        }
+        val stxyzItems = this.filter { it.key in GroupOffer.STXYZ.items }
+        if(stxyzItems.entries.sumOf { it.value } > 5){
+
+        }else 0
+        return
     }
 
     private fun Map<Char, Int>.removeFreeItems(): Map<Char, Int>{
